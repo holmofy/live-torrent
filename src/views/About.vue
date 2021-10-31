@@ -1,10 +1,28 @@
+<i18n>
+{
+  "en": {
+    "title": "About Live Torrent"
+  },
+  "zh":{
+    "title": "关于LiveTorrent"
+  }
+}
+</i18n>
+
 <template color="#445064">
   <v-container fluid class="text-xs-center">
-    <v-layout justify-center :align-center="$vuetify.breakpoint.mdAndUp" fill-height>
+    <v-layout
+      justify-center
+      :align-center="$vuetify.breakpoint.mdAndUp"
+      fill-height
+    >
       <v-flex xs12 md10>
-        <h1 class="title my-5">About Live Torrent</h1>
+        <h1 class="title my-5">{{ $t("title") }}</h1>
 
-        <p>Live Torrent created to explore, share and play media of torrent files online.</p>
+        <p>
+          Live Torrent created to explore, share and play media of torrent files
+          online.
+        </p>
         <p>
           Live Torrent is open source.
           <br />Visit the github repository from
@@ -42,6 +60,6 @@ export default {
   name: "about",
   created() {
     document.title = "Live Torrent - About";
-  }
+  },
 };
 </script>
