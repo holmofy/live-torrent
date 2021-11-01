@@ -1,3 +1,48 @@
+<i18n>
+{
+  "en":{
+    "Information":"Information",
+    "Language":"Language",
+    "MPA Rating":"MPA Rating",
+    "Unknown":"Unknown",
+    "IMDB Code":"IMDB Code",
+    "Year":"Year",
+    "Watching":"Watching",
+    "Downloads":"Downloads",
+    "Uploaded At":"Uploaded At",
+    "Suggested Movies":"Suggested Movies",
+    "Description":"Description",
+    "Casts":"Casts",
+    "Share":"Share",
+    "Captions":"Captions",
+    "NoCaptions":"No captions found for this movie.",
+    "MakeCaptions":"You can help by making subtitles and uploading it to",
+    "Trailer":"Trailer",
+    "SearchTrailer":"Search Youtube for the trailer."
+  },
+  "zh":{
+    "Information":"信息",
+    "Language":"语言",
+    "MPA Rating":"MPA评分",
+    "Unknown":"未知",
+    "IMDB Code":"IMDB 代码",
+    "Year":"年份",
+    "Watching":"观看量",
+    "Downloads":"下载量",
+    "Uploaded At":"上传时间",
+    "Suggested Movies":"推荐电影",
+    "Description":"简介",
+    "Casts":"演员表",
+    "Share":"分享",
+    "Captions":"字幕",
+    "NoCaptions":"没有找到这部电影的字幕",
+    "MakeCaptions":"你可以制作字幕上传到",
+    "Trailer":"预告片",
+    "SearchTrailer":"到Youtube上搜预告片"
+  }
+}
+</i18n>
+
 <template>
   <v-container fluid fill-height style="overflow: hidden">
     <v-layout raw wrap v-if="movie">
@@ -7,10 +52,10 @@
           <bookmark-button
             v-if="movie"
             :bookmarkInfo="{
-          name: `${movie.title} (${movie.year}) - Movie Page`,
-          id: `movie::${movie.imdb_code}`,
-          url: window.location.href
-          }"
+              name: `${movie.title} (${movie.year}) - Movie Page`,
+              id: `movie::${movie.imdb_code}`,
+              url: window.location.href
+            }"
           />
         </h1>
       </v-flex>
@@ -22,7 +67,10 @@
         >
           <template v-slot:placeholder>
             <v-layout fill-height align-center justify-center ma-0>
-              <v-progress-circular indeterminate color="blue"></v-progress-circular>
+              <v-progress-circular
+                indeterminate
+                color="blue"
+              ></v-progress-circular>
             </v-layout>
           </template>
         </v-img>
@@ -37,23 +85,28 @@
           <v-expansion-panel-content>
             <template v-slot:header>
               <div class="title">
-                <v-icon left>fas fa-info-circle</v-icon>Information
+                <v-icon left>fas fa-info-circle</v-icon>{{ $t("Information") }}
               </div>
             </template>
             <v-card>
               <v-card-text>
-                <div>Language: {{ movie.language }}</div>
-                <div>MPA Rating: {{ movie.mpa_rating || 'Unknown' }}</div>
-                <div>IMDB Code: {{ movie.imdb_code }}</div>
-                <div>Year: {{ movie.year }}</div>
-                <div>Rating: {{ movie.rating }} / 10</div>
+                <div>{{ $t("Language") }}: {{ movie.language }}</div>
                 <div>
-                  Genres:
-                  <span v-for="(g, i) in movie.genres" :key="i" class="mx-1">{{ g }}</span>
+                  {{ $t("MPA Rating") }}:
+                  {{ movie.mpa_rating || $t("Unknown") }}
                 </div>
-                <div>Watching: {{ movie.runtime }}</div>
-                <div>Downloads: {{ movie.download_count }}</div>
-                <div>Uploaded At: {{ movie.date_uploaded }}</div>
+                <div>{{ $t("IMDB Code") }}: {{ movie.imdb_code }}</div>
+                <div>{{ $t("Year") }}: {{ movie.year }}</div>
+                <div>{{ $t("Rating") }}: {{ movie.rating }} / 10</div>
+                <div>
+                  {{ $t("Genres") }}:
+                  <span v-for="(g, i) in movie.genres" :key="i" class="mx-1">{{
+                    g
+                  }}</span>
+                </div>
+                <div>{{ $t("Watching") }}: {{ movie.runtime }}</div>
+                <div>{{ $t("Downloads") }}: {{ movie.download_count }}</div>
+                <div>{{ $t("Uploaded At") }}: {{ movie.date_uploaded }}</div>
               </v-card-text>
             </v-card>
           </v-expansion-panel-content>
@@ -67,7 +120,7 @@
           <v-expansion-panel-content>
             <template v-slot:header>
               <div class="title">
-                <v-icon left>fas fa-align-left</v-icon>Description
+                <v-icon left>fas fa-align-left</v-icon>{{ $t("Description") }}
               </div>
             </template>
             <v-card>
@@ -84,21 +137,33 @@
           <v-expansion-panel-content>
             <template v-slot:header>
               <div class="title">
-                <v-icon left>fas fa-mask</v-icon>Casts
+                <v-icon left>fas fa-mask</v-icon>{{ $t("Casts") }}
               </div>
             </template>
             <v-card>
               <v-card-text>
                 <v-list two-line>
-                  <v-list-tile v-for="cast in movie.cast" :key="cast.imdb_code" avatar>
+                  <v-list-tile
+                    v-for="cast in movie.cast"
+                    :key="cast.imdb_code"
+                    avatar
+                  >
                     <v-list-tile-avatar>
-                      <img :src="cast.url_small_image" v-if="cast.url_small_image" />
+                      <img
+                        :src="cast.url_small_image"
+                        v-if="cast.url_small_image"
+                      />
                       <v-icon v-else>fas fa-user-alt</v-icon>
                     </v-list-tile-avatar>
 
                     <v-list-tile-content>
-                      <v-list-tile-title>{{ cast.name }} - IMDB Code: {{ cast.imdb_code }}</v-list-tile-title>
-                      <v-list-tile-sub-title>{{ cast.character_name }}</v-list-tile-sub-title>
+                      <v-list-tile-title
+                        >{{ cast.name }} - IMDB Code:
+                        {{ cast.imdb_code }}</v-list-tile-title
+                      >
+                      <v-list-tile-sub-title>{{
+                        cast.character_name
+                      }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                   </v-list-tile>
                 </v-list>
@@ -114,9 +179,7 @@
         >
           <v-expansion-panel-content>
             <template v-slot:header>
-              <div class="title">
-                <v-icon left>fas fa-film</v-icon>YTS
-              </div>
+              <div class="title"><v-icon left>fas fa-film</v-icon>YTS</div>
             </template>
             <v-card>
               <v-card-text>
@@ -138,15 +201,15 @@
           <v-expansion-panel-content>
             <template v-slot:header>
               <div class="title">
-                <v-icon left>fas fa-share-alt</v-icon>Share
+                <v-icon left>fas fa-share-alt</v-icon>{{ $t("Share") }}
               </div>
             </template>
             <v-card>
               <v-card-text>
-              <share-buttons
-                :title="`Watch for free '${movie.title_long}' movie`"
-                :desc="`Watch for free '${movie.title_long}' movie`"
-              />
+                <share-buttons
+                  :title="`Watch for free '${movie.title_long}' movie`"
+                  :desc="`Watch for free '${movie.title_long}' movie`"
+                />
               </v-card-text>
             </v-card>
           </v-expansion-panel-content>
@@ -160,13 +223,16 @@
           <v-expansion-panel-content>
             <template v-slot:header>
               <div class="title">
-                <v-icon left>fas fa-closed-captioning</v-icon>Captions
+                <v-icon left>fas fa-closed-captioning</v-icon>
+                {{ $t("Captions") }}
               </div>
             </template>
             <v-card>
-              <v-card-text style="text-wrap: wrap;">
+              <v-card-text style="text-wrap: wrap">
                 <div v-if="loadingCaptions">Loading...</div>
-                <div v-else-if="!captions.length">No captions found for this movie.</div>
+                <div v-else-if="!captions.length">
+                  {{ $t("NoCaptions") }}
+                </div>
                 <div v-else>
                   <a
                     :href="c.utf8"
@@ -175,19 +241,22 @@
                     v-for="(c, i) in captions"
                     :key="i"
                     style="margin: 5px; display: inline-block"
-                  >{{ c.lang }}</a>.
+                    >{{ c.lang }}</a
+                  >.
                 </div>
                 <hr />
                 <div>
-                  You can help by making subtitles and uploading it to
-                  <a
-                    href="https://opensubtitles.org"
-                    title="open subtitles"
-                  >opensubtitles.org</a>
+                  {{ $t("MakeCaptions") }}
+                  <a href="https://opensubtitles.org" title="open subtitles"
+                    >opensubtitles.org</a
+                  >
                 </div>
                 <div>
                   You can use
-                  <a href="https://amara.org/en/" title="amara subtitle editor">Amara</a> online editor to make amazing subtitles
+                  <a href="https://amara.org/en/" title="amara subtitle editor"
+                    >Amara</a
+                  >
+                  online editor to make amazing subtitles
                 </div>
               </v-card-text>
             </v-card>
@@ -196,29 +265,51 @@
       </v-flex>
 
       <v-flex xs12 md10 offset-md1 mt-5>
-        <h1 class="title mb-4">Trailer:</h1>
+        <h1 class="title mb-4">{{ $("Trailer") }}:</h1>
         <div class="my-3 text-xs-center">
           <v-btn
             tag="a"
             target="_blank"
-            :href="`https://www.youtube.com/search?q=${movie.title} ${movie.year} trailer`"
+            :href="
+              `https://www.youtube.com/search?q=${movie.title} ${movie.year} trailer`
+            "
             color="red"
           >
-            <v-icon left>fab fa-youtube</v-icon>Search Youtube for the trailer.
+            <v-icon left>fab fa-youtube</v-icon>{{ $t("SearchTrailer") }}
           </v-btn>
-          <v-btn tag="a" target="_blank" :href="trailer" color="red" v-if="trailer">
+          <v-btn
+            tag="a"
+            target="_blank"
+            :href="trailer"
+            color="red"
+            v-if="trailer"
+          >
             <v-icon left>fab fa-youtube</v-icon>Watch trailer on Youtube
           </v-btn>
         </div>
-        <div id="player" data-plyr-provider="youtube" :data-plyr-embed-id="trailer" v-if="trailer"></div>
+        <div
+          id="player"
+          data-plyr-provider="youtube"
+          :data-plyr-embed-id="trailer"
+          v-if="trailer"
+        ></div>
       </v-flex>
 
       <v-flex xs12 mt-5>
         <h1 class="title mb-4">Screenshots:</h1>
         <v-carousel>
-          <v-carousel-item contain :src="movie.large_screenshot_image1"></v-carousel-item>
-          <v-carousel-item contain :src="movie.large_screenshot_image2"></v-carousel-item>
-          <v-carousel-item contain :src="movie.large_screenshot_image3"></v-carousel-item>
+          <v-carousel-item
+            contain
+            :src="movie.large_screenshot_image1"
+          ></v-carousel-item>
+          <v-carousel-item
+            contain
+            :src="movie.large_screenshot_image2"
+          ></v-carousel-item>
+          <v-carousel-item
+            contain
+            :src="movie.large_screenshot_image3"
+          ></v-carousel-item>
         </v-carousel>
       </v-flex>
 
@@ -226,13 +317,20 @@
         <h1 class="subheading">Torrents:</h1>
 
         <v-layout raw wrap>
-          <v-flex xs12 md6 xl4 v-for="torrent in movie.torrents" :key="torrent.hash">
+          <v-flex
+            xs12
+            md6
+            xl4
+            v-for="torrent in movie.torrents"
+            :key="torrent.hash"
+          >
             <v-card dark color="#445064" class="ma-2">
               <v-card-title class="title">
-                {{ torrent.type }} - {{ torrent.quality }} - {{ torrent.size }} -
-                <span
-                  class="subheading grey--text ml-1"
-                >{{ torrent.date_uploaded }}</span>
+                {{ torrent.type }} - {{ torrent.quality }} -
+                {{ torrent.size }} -
+                <span class="subheading grey--text ml-1">{{
+                  torrent.date_uploaded
+                }}</span>
               </v-card-title>
 
               <v-card-text>
@@ -253,31 +351,42 @@
                   <template v-slot:append>
                     <v-btn
                       icon
-                      @click="$copy(`${hostURL}/api/torrent/serve/${torrent.hash}/:video`)"
+                      @click="
+                        $copy(
+                          `${hostURL}/api/torrent/serve/${torrent.hash}/:video`
+                        )
+                      "
                     >
                       <v-icon small>fas fa-copy</v-icon>
                     </v-btn>
                   </template>
                 </v-text-field>
 
-                <v-btn color="green" tag="a" :href="torrent.url">Download (.torrent)</v-btn>
+                <v-btn color="green" tag="a" :href="torrent.url"
+                  >Download (.torrent)</v-btn
+                >
                 <v-btn
                   color="purple"
                   tag="a"
-                  :href="`${hostURL}/player?torrentId=${torrent.hash}&caption=imdbid::${movie.imdb_code}`"
-                >Watch</v-btn>
+                  :href="
+                    `${hostURL}/player?torrentId=${torrent.hash}&caption=imdbid::${movie.imdb_code}`
+                  "
+                  >Watch</v-btn
+                >
                 <v-btn
                   color="blue"
                   tag="a"
                   :href="`${hostURL}/explorer?torrentId=${torrent.hash}`"
-                >Explore</v-btn>
+                  >Explore</v-btn
+                >
                 <v-btn
                   color="orange"
                   tag="a"
                   target="_blank"
                   :download="`${movie.slug}.mp4`"
                   :href="`${hostURL}/api/torrent/serve/${torrent.hash}/:video`"
-                >Download Movie (.mp4)</v-btn>
+                  >Download Movie (.mp4)</v-btn
+                >
               </v-card-text>
             </v-card>
           </v-flex>
@@ -285,7 +394,7 @@
       </v-flex>
 
       <v-flex xs12 mt-5 v-if="movie.suggestedMovies">
-        <h1 class="subheading">Suggested Movies:</h1>
+        <h1 class="subheading">{{ $t("Suggested Movies") }}:</h1>
 
         <v-layout raw wrap mt-5>
           <v-flex

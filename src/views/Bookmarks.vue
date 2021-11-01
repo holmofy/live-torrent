@@ -1,20 +1,38 @@
+<i18n>
+{
+  "en":{
+    "bookmarks":"Bookmarks",
+    "Remove All":"Remove All",
+    "Refresh":"Refresh",
+    "Copy":"Copy",
+    "No bookmarks":"No bookmarks"
+  },
+  "zh":{
+    "bookmarks":"书签",
+    "Remove All":"清空",
+    "Refresh":"刷新",
+    "Copy":"拷贝",
+    "No bookmarks":"还没有书签呀"
+  }
+}
+</i18n>
 <template>
   <v-container>
     <v-layout row wrap>
       <v-flex xs12 mb-5 class="text-xs-center">
         <h1 class="title">
-          <v-icon left>fas fa-bookmark</v-icon>Bookmarks
+          <v-icon left>fas fa-bookmark</v-icon>{{ $t("bookmarks") }}
         </h1>
       </v-flex>
       <v-flex xs12 class="text-xs-center">
         <v-btn @click="$Bookmarks.reset()" color="red" v-if="bookmarks.length">
-          <v-icon left>fas fa-trash</v-icon>Remove All
+          <v-icon left>fas fa-trash</v-icon>{{ $t("Remove All") }}
         </v-btn>
         <v-btn @click="refresh" color="green">
-          <v-icon left>fas fa-sync</v-icon>Refresh
+          <v-icon left>fas fa-sync</v-icon>{{ $t("Refresh") }}
         </v-btn>
         <v-btn @click="share" color="teal">
-          <v-icon left>fas fa-copy</v-icon>Copy
+          <v-icon left>fas fa-copy</v-icon>{{ $t("Copy") }}
         </v-btn>
       </v-flex>
       <v-flex xs8 ma-2 v-for="(bookmark, i) in bookmarks" :key="i">
@@ -24,13 +42,17 @@
         </v-btn>
         <v-btn
           icon
-          @click="$copy(`${hostURL}/bookmarks?bookmark=${btoa(JSON.stringify(bookmark))}`)"
+          @click="
+            $copy(
+              `${hostURL}/bookmarks?bookmark=${btoa(JSON.stringify(bookmark))}`
+            )
+          "
         >
           <v-icon small>fas fa-copy</v-icon>
         </v-btn>
       </v-flex>
       <v-flex v-if="!bookmarks.length" my-5 class="text-xs-center">
-        <h1 class="subheading">No bookmarks</h1>
+        <h1 class="subheading">{{ $t("No bookmarks") }}</h1>
       </v-flex>
     </v-layout>
   </v-container>

@@ -1,3 +1,26 @@
+<i18n>
+{
+  "en":{
+      "github":"Github",
+      "issue":"Github Issues",
+      "feedback":"Feedback",
+      "search_label":"Looking for something or you have a torrentID",
+      "search_hint":"torrentID can be torrent magnet, torrent HTTP/HTTPS url or torrent info hash",
+      "search_error":"Please enter torrent ID or Search Query",
+      "share":"Share Live Torrent"
+    },
+    "zh":{
+      "github":"Github",
+      "issue":"提问题",
+      "feedback":"邮件反馈",
+      "search_label":"直接搜索关键字或输入torrentID",
+      "search_hint":"torrentID支持magnet, torrent HTTP/HTTPS链接 或者 torrent 哈希值",
+      "search_error":"请输入关键字或torrent ID",
+      "share":"分享这个网站"
+    }
+}
+</i18n>
+
 <template>
   <v-layout align-center justify-center fill-height>
     <v-flex xs12>
@@ -20,7 +43,7 @@
         <v-flex xs10 offset-xs1>
           <v-text-field
             v-model="query"
-            label="Looking for something or you have a torrentID"
+            :label="$t('search_label')"
             @keydown.enter="search"
             :error-messages="errors"
             :disabled="loading"
@@ -28,7 +51,7 @@
             light
             :loading="loading"
             persistent-hint
-            hint="torrentID can be torrent magnet, torrent HTTP/HTTPS url or torrent info hash"
+            :hint="$t('search_hint')"
             clearable
             :autofocus="!$vuetify.breakpoint.xsOnly"
           >
@@ -52,29 +75,29 @@
         <v-flex class="text-xs-center mt-5">
           <v-btn
             color="gray"
-            href="https://github.com/Davenchy/live-torrent"
+            href="https://github.com/holmofy/live-torrent"
             target="blank"
           >
-            <v-icon left>fab fa-github</v-icon>Github
+            <v-icon left>fab fa-github</v-icon>{{ $t("github") }}
           </v-btn>
           <v-btn
             color="gray"
-            href="https://github.com/Davenchy/live-torrent/issues"
+            href="https://github.com/holmofy/live-torrent/issues"
             target="blank"
           >
-            <v-icon left>fas fa-exclamation-circle</v-icon>Github Issues
+            <v-icon left>fas fa-exclamation-circle</v-icon>{{ $t("issue") }}
           </v-btn>
           <v-btn
             color="blue"
-            href="mailto:firon1222@gmail.com?Subject=Live%20Torrent%20-%20Feedback"
+            href="mailto:hff1996723@163.com?Subject=Live%20Torrent%20-%20Feedback"
             target="blank"
           >
-            <v-icon left>fas fa-comments</v-icon>Feedback
+            <v-icon left>fas fa-comments</v-icon>{{ $t("feedback") }}
           </v-btn>
         </v-flex>
 
         <v-flex xs10 offset-xs1 class="mt-5">
-          <div class="mb-3">Share Live Torrent:</div>
+          <div class="mb-3">{{ $t("share") }}:</div>
           <share-buttons
             :url="hostURL"
             title="Explore, download or watch torrent files online"
@@ -120,7 +143,7 @@ export default {
       const { isEmpty, isTorrentId } = this.validateQuery;
 
       if (isEmpty) {
-        this.errors = "Please enter torrent ID or Search Query";
+        this.errors = this.$t("search_error");
         this.loading = false;
       } else if (isTorrentId) {
         this.$router.push({

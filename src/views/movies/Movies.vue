@@ -1,8 +1,108 @@
+<i18n>
+{
+  "en":{
+    "title":"Torrent Movies",
+    "search_hint":"Looking for",
+    "order":"Order",
+    "ascending":"Ascending",
+    "descending":"Descending",
+    "genre":"Genre",
+    "rating":"Minimum Rating",
+    "search":"Search",
+    "random":"Random",
+    "pager_label":"Page Number",
+    "no_result_hint":"No Results.",
+    "Title":"Title",
+    "Year":"Year",
+    "Rating":"Rating",
+    "Peers":"Peers",
+    "Seeds":"Seeds",
+    "Downloads":"Downloads",
+    "Popularity":"Popularity",
+    "Upload Date":"Upload Date",
+    "All":"All",
+    "Action":"Action",
+    "Adventure":"Adventure",
+    "Animation":"Animation",
+    "Biography":"Biography",
+    "Comedy":"Comedy",
+    "Crime":"Crime",
+    "Documentary":"Documentary",
+    "Drama":"Drama",
+    "Family":"Family",
+    "Fantasy":"Fantasy",
+    "Film-Noir":"Film-Noir",
+    "Game-Show":"Game-Show",
+    "History":"History",
+    "Horror":"Horror",
+    "Music":"Music",
+    "Musical":"Musical",
+    "Mystery":"Mystery",
+    "News":"News",
+    "Reality Tv":"Reality Tv",
+    "Romance":"Romance",
+    "Sci-Fi":"Sci-Fi",
+    "Sport":"Sport",
+    "Talk-Show":"Talk-Show",
+    "Thriller":"Thriller",
+    "War":"War",
+    "Western":"Western"
+  },
+  "en":{
+    "title":"电影在线",
+    "search_hint":"来找找看",
+    "order":"Order",
+    "ascending":"正序",
+    "descending":"倒序",
+    "genre":"Genre",
+    "rating":"最低评分",
+    "search":"搜索",
+    "random":"随便来一个",
+    "pager_label":"翻页",
+    "no_result_hint":"没找到。",
+    "Title":"标题",
+    "Year":"年份",
+    "Rating":"评分",
+    "Peers":"年龄",
+    "Seeds":"种子",
+    "Downloads":"下载数",
+    "Popularity":"人气",
+    "Upload Date":"上传时间",
+    "All":"所有",
+    "Action":"动作",
+    "Adventure":"冒险",
+    "Animation":"动画",
+    "Biography":"传记",
+    "Comedy":"喜剧",
+    "Crime":"犯罪",
+    "Documentary":"纪录片",
+    "Drama":"戏剧",
+    "Family":"家庭",
+    "Fantasy":"幻想",
+    "Film-Noir":"黑色电影",
+    "Game-Show":"游戏节目",
+    "History":"历史",
+    "Horror":"恐怖",
+    "Music":"音乐",
+    "Musical":"音乐",
+    "Mystery":"玄幻",
+    "News":"新闻",
+    "Reality Tv":"真人秀",
+    "Romance":"浪漫",
+    "Sci-Fi":"科幻",
+    "Sport":"运动",
+    "Talk-Show":"脱口秀",
+    "Thriller":"惊悚",
+    "War":"战争",
+    "Western":"西方"
+  }
+}
+</i18n>
 <template>
   <v-container fluid>
     <v-layout raw wrap xs12>
       <v-flex xs12 class="my-5 text-xs-center">
-        <h1>Torrent Movies</h1>
+        <h1>{{ $t("title") }}</h1>
       </v-flex>
 
       <v-flex xs12>
@@ -16,7 +116,7 @@
           item-text="title"
           loader-height="5"
           item-value="title"
-          placeholder="Looking for"
+          :placeholder="$t('search_hint')"
           :disabled="loading"
           :items="suggestions"
           :loading="thinking || loading"
@@ -30,7 +130,10 @@
           <template v-slot:item="{ item }">
             <div>
               <v-avatar :size="45">
-                <img :src="item.small_cover_image" :alt="`${item.title}'s cover`" />
+                <img
+                  :src="item.small_cover_image"
+                  :alt="`${item.title}'s cover`"
+                />
               </v-avatar>
               <span class="mx-3">
                 <span v-html="maskSuggestion(item.title)"></span>
@@ -44,7 +147,8 @@
                   small
                   class="mx-2"
                   color="primary"
-                >{{ genre }}</v-chip>
+                  >{{ genre }}</v-chip
+                >
               </span>
             </div>
           </template>
@@ -67,19 +171,10 @@
                 offsetOverflow: true
               }"
               single-line
-              :items="[
-                { text: 'Title', value: 'title' },
-                { text: 'Year', value: 'year' },
-                { text: 'Rating', value: 'rating' },
-                { text: 'Peers', value: 'peers' },
-                { text: 'Seeds', value: 'seeds' },
-                { text: 'Downloads', value: 'download_count' },
-                { text: 'Popularity', value: 'likes_count' },
-                { text: 'Upload Date', value: 'date_added' }
-              ]"
+              :items="orderItems"
             >
               <template v-slot:prepend-inner>
-                <div class="select-text">Order:</div>
+                <div class="select-text">{{ $t("order") }}:</div>
               </template>
             </v-select>
           </v-flex>
@@ -97,38 +192,10 @@
               }"
               hide-details
               single-line
-              :items="[
-                { text: 'All', value: 'all' },
-                { text: 'Action', value: 'action' },
-                { text: 'Adventure', value: 'adventure' },
-                { text: 'Animation', value: 'animation' },
-                { text: 'Biography', value: 'biography' },
-                { text: 'Comedy', value: 'comedy' },
-                { text: 'Crime', value: 'crime' },
-                { text: 'Documentary', value: 'documentary' },
-                { text: 'Drama', value: 'drama' },
-                { text: 'Family', value: 'family' },
-                { text: 'Fantasy', value: 'fantasy' },
-                { text: 'Film-Noir', value: 'film-noir' },
-                { text: 'Game-Show', value: 'game-show' },
-                { text: 'History', value: 'history' },
-                { text: 'Horror', value: 'horror' },
-                { text: 'Music', value: 'music' },
-                { text: 'Musical', value: 'musical' },
-                { text: 'Mystery', value: 'mystery' },
-                { text: 'News', value: 'news' },
-                { text: 'Reality Tv', value: 'reality-tv' },
-                { text: 'Romance', value: 'romance' },
-                { text: 'Sci-Fi', value: 'sci-fi' },
-                { text: 'Sport', value: 'sport' },
-                { text: 'Talk-Show', value: 'talk-show' },
-                { text: 'Thriller', value: 'thriller' },
-                { text: 'War', value: 'war' },
-                { text: 'Western', value: 'western' }
-              ]"
+              :items="genreItems"
             >
               <template v-slot:prepend-inner>
-                <div class="select-text">Genre:</div>
+                <div class="select-text">{{ $t("genre") }}:</div>
               </template>
             </v-select>
           </v-flex>
@@ -147,8 +214,8 @@
               hide-details
               single-line
               :items="[
-                { text: 'Ascending', value: 'asc' },
-                { text: 'Descending', value: 'desc' }
+                { text: $t('ascending'), value: 'asc' },
+                { text: $t('descending'), value: 'desc' }
               ]"
             >
               <template v-slot:prepend-inner>
@@ -157,34 +224,50 @@
             </v-select>
           </v-flex>
           <v-flex xs12 pa-2 my-3 class="text-xs-center">
-            <div class="subheading">Minimum Rating:</div>
-            <v-rating v-model="rating" color="yellow" half-increments hover :disabled="loading" />
+            <div class="subheading">{{ $t("rating") }}:</div>
+            <v-rating
+              v-model="rating"
+              color="yellow"
+              half-increments
+              hover
+              :disabled="loading"
+            />
           </v-flex>
           <v-flex xs12 class="text-xs-center">
             <v-btn color="green" @click="search(true)" :disabled="loading">
-              <v-icon left>fas fa-search</v-icon>Search
+              <v-icon left>fas fa-search</v-icon>{{ $t("search") }}
             </v-btn>
             <v-btn color="blue" @click="random" :disabled="loading">
-              <v-icon left>fas fa-dice</v-icon>Random
+              <v-icon left>fas fa-dice</v-icon>{{ $t("random") }}
             </v-btn>
           </v-flex>
         </v-layout>
       </v-flex>
       <v-flex xs12 sm6 offset-sm3 v-if="movies" class="text-xs-center mb-5">
         <v-layout row>
-          <v-btn icon large @click="cpage > 1 ? cpage-- : null" :disabled="loading">
+          <v-btn
+            icon
+            large
+            @click="cpage > 1 ? cpage-- : null"
+            :disabled="loading"
+          >
             <v-icon>fas fa-chevron-left</v-icon>
           </v-btn>
           <v-select
             dark
-            label="Page Number"
+            :label="$t('pager_label')"
             v-model="cpage"
             :items="generatedPages"
             :disabled="loading"
             hide-details
             single-line
           />
-          <v-btn icon large @click="cpage < pages ? cpage++ : null" :disabled="loading">
+          <v-btn
+            icon
+            large
+            @click="cpage < pages ? cpage++ : null"
+            :disabled="loading"
+          >
             <v-icon>fas fa-chevron-right</v-icon>
           </v-btn>
         </v-layout>
@@ -205,23 +288,33 @@
         </v-layout>
       </v-flex>
       <v-flex class="text-xs-center" v-else>
-        <h1 class="title">No Results.</h1>
+        <h1 class="title">{{ $t("no_result_hint") }}</h1>
       </v-flex>
       <v-flex xs12 sm6 offset-sm3 v-if="movies" class="text-xs-center mb-5">
         <v-layout row>
-          <v-btn icon large @click="cpage > 1 ? cpage-- : null" :disabled="loading">
+          <v-btn
+            icon
+            large
+            @click="cpage > 1 ? cpage-- : null"
+            :disabled="loading"
+          >
             <v-icon>fas fa-chevron-left</v-icon>
           </v-btn>
           <v-select
             dark
-            label="Page Number"
+            :label="$t('pager_label')"
             v-model="cpage"
             :items="generatedPages"
             :disabled="loading"
             hide-details
             single-line
           />
-          <v-btn icon large @click="cpage < pages ? cpage++ : null" :disabled="loading">
+          <v-btn
+            icon
+            large
+            @click="cpage < pages ? cpage++ : null"
+            :disabled="loading"
+          >
             <v-icon>fas fa-chevron-right</v-icon>
           </v-btn>
         </v-layout>
@@ -234,12 +327,10 @@
 import MovieCard from "../../components/MovieCard";
 import { mapActions, mapGetters } from "vuex";
 import { getMoviesList } from "../../utils/axios";
-import BookmarkButton from "../../components/BookmarkButton";
 
 export default {
   components: {
-    MovieCard,
-    BookmarkButton
+    MovieCard
   },
   data() {
     return {
@@ -362,11 +453,12 @@ export default {
     },
     pages(n) {
       this.generatedPages = [];
-      if (n === 1)
-        return (this.generatedPages = [{ text: "Page 1 Of 1", value: 1 }]);
+      if (n === 1) {
+        return (this.generatedPages = [{ text: "1 / 1", value: 1 }]);
+      }
       for (let i = 0; i < this.pages; i++)
         this.generatedPages.push({
-          text: `Page ${i + 1} Of ${n}`,
+          text: `${i + 1} / ${n}`,
           value: i + 1
         });
     },
@@ -377,6 +469,49 @@ export default {
     genre: n => sessionStorage.setItem("mse.genre", n || "all")
   },
   computed: {
+    orderItems() {
+      return [
+        { text: this.$t("Title"), value: "title" },
+        { text: this.$t("Year"), value: "year" },
+        { text: this.$t("Rating"), value: "rating" },
+        { text: this.$t("Peers"), value: "peers" },
+        { text: this.$t("Seeds"), value: "seeds" },
+        { text: this.$t("Downloads"), value: "download_count" },
+        { text: this.$t("Popularity"), value: "likes_count" },
+        { text: this.$t("Upload Date"), value: "date_added" }
+      ];
+    },
+    genreItems() {
+      return [
+        { text: this.$t("All"), value: "all" },
+        { text: this.$t("Action"), value: "action" },
+        { text: this.$t("Adventure"), value: "adventure" },
+        { text: this.$t("Animation"), value: "animation" },
+        { text: this.$t("Biography"), value: "biography" },
+        { text: this.$t("Comedy"), value: "comedy" },
+        { text: this.$t("Crime"), value: "crime" },
+        { text: this.$t("Documentary"), value: "documentary" },
+        { text: this.$t("Drama"), value: "drama" },
+        { text: this.$t("Family"), value: "family" },
+        { text: this.$t("Fantasy"), value: "fantasy" },
+        { text: this.$t("Film-Noir"), value: "film-noir" },
+        { text: this.$t("Game-Show"), value: "game-show" },
+        { text: this.$t("History"), value: "history" },
+        { text: this.$t("Horror"), value: "horror" },
+        { text: this.$t("Music"), value: "music" },
+        { text: this.$t("Musical"), value: "musical" },
+        { text: this.$t("Mystery"), value: "mystery" },
+        { text: this.$t("News"), value: "news" },
+        { text: this.$t("Reality Tv"), value: "reality-tv" },
+        { text: this.$t("Romance"), value: "romance" },
+        { text: this.$t("Sci-Fi"), value: "sci-fi" },
+        { text: this.$t("Sport"), value: "sport" },
+        { text: this.$t("Talk-Show"), value: "talk-show" },
+        { text: this.$t("Thriller"), value: "thriller" },
+        { text: this.$t("War"), value: "war" },
+        { text: this.$t("Western"), value: "western" }
+      ];
+    },
     ...mapGetters(["page", "pages", "movies"])
   },
   created() {
